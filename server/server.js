@@ -27,8 +27,12 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'ShopSmart AI backend is running.' });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Demo Mode: ${!process.env.GEMINI_API_KEY ? 'Active (No API key found)' : 'Inactive (Gemini available)'}`);
-});
+// Start server (or export for Vercel serverless)
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log(`Demo Mode: ${!process.env.GEMINI_API_KEY ? 'Active' : 'Inactive'}`);
+  });
+}
+
+module.exports = app;
