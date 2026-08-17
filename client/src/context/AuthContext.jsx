@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, useEffect } from 'react';
+import { API_URL } from '../services/api';
 
 const AuthContext = createContext();
 
@@ -28,7 +29,7 @@ export function AuthProvider({ children }) {
 
   const googleLogin = async (credentialResponse) => {
     try {
-      const res = await fetch('http://localhost:5000/api/auth/google', {
+      const res = await fetch(`${API_URL}/auth/google`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ credential: credentialResponse.credential })
