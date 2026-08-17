@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { getProductById } from '../services/api';
+import { getProductById, API_URL } from '../services/api';
 import { ShieldCheck, CreditCard, CheckCircle, AlertTriangle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -49,7 +49,7 @@ export default function Checkout() {
     setIsProcessing(true);
     try {
       // 1. Create order on backend
-      const response = await fetch('http://localhost:5000/api/payment/orders', {
+      const response = await fetch(`${API_URL}/payment/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: product.price })
@@ -84,7 +84,7 @@ export default function Checkout() {
         handler: async function (response) {
           // Success callback - now we verify securely on the backend
           try {
-            const verifyRes = await fetch('http://localhost:5000/api/payment/verify', {
+            const verifyRes = await fetch(`${API_URL}/payment/verify`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
